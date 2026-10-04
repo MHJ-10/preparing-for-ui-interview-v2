@@ -18,7 +18,8 @@ import type { Equal, Expect } from '@course/types'
 
 /* _____________ Your Code Here _____________ */
 
-type First = {};
+type First<T extends readonly any[]> = T extends [] ? never : T[0]
+type Second<T extends readonly any[]> = T extends [any, infer Two, ...any[]] ? Two : never // second solution
 
 /* _____________ Test Cases _____________ */
 
