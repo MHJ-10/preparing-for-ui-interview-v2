@@ -19,7 +19,8 @@ import type { Equal, Expect } from '@course/types'
 
 /* _____________ Your Code Here _____________ */
 
-type MyPick = {}
+type MyPick<T, K extends keyof T> = { [P in K]: T[P] }
+type MyOmit<T, K extends keyof T> = MyPick<T, Exclude<keyof T, K>>
 
 /* _____________ Test Cases _____________ */
 
@@ -38,9 +39,14 @@ interface Expected2 {
   completed: boolean
 }
 
+interface Expected3 {
+  title: string
+}
+
 type cases = [
   Expect<Equal<MyPick<Todo, 'title'>, Expected1>>,
   Expect<Equal<MyPick<Todo, 'title' | 'completed'>, Expected2>>,
+  Expect<Equal<MyOmit<Todo, 'description' | 'completed'>, Expected3>>,
   // @ts-expect-error - invalid key
   MyPick<Todo, 'invalid'>,
 ]
